@@ -11,3 +11,75 @@ if [[ -s "${ZDOTDIR:-$HOME}/.zprezto/init.zsh" ]]; then
 fi
 
 # Customize to your needs...
+
+# enable bash-like comments in zsh
+setopt interactivecomments
+
+###############################################
+################ EXPORTS ######################
+###############################################
+
+export MLM_LICENSE_FILE=27000@licmngr1.iitd.ernet.in,27000@licmngr2.iitd.ernet.in,27000@licmanager.cse.iitd.ernet.in,27000@localhost
+export PYTHONPATH='/Users/shivanker/lib/python2.7/dist-packages:'${PYTHONPATH}
+export XML_CATALOG_FILES=/usr/local/etc/xml/catalog
+
+export LD_LIBRARY_PATH=/Users/shivanker/ns-allinone-2.35/otcl-1.14:/Users/shivanker/ns-allinone-2.35/lib
+export TCL_LIBRARY=/Users/shivanker/ns-allinone-2.35/tcl8.5.10/library:/Users/shivanker/ns-allinone-2.35/tk8.5.10/library
+
+#export PHP_AUTOCONF="/usr/local/bin/autoconf"
+export HOMEBREW_GITHUB_API_TOKEN='cb3e1742041acd57d699e1dd424a03e1f3321483'
+
+# OPAM configuration
+# (enabled ocaml module in prezto)
+export DYLD_LIBRARY_PATH=${DYLD_LIBRARY_PATH}:`ocamlfind printconf destdir`/Z3
+
+#################################################
+################### ALIASES #####################
+#################################################
+alias md5sum='md5 -r'
+
+alias matlab='/Applications/MATLAB_R2012b.app/bin/matlab'
+alias sublime='/Applications/Sublime\ Text\ 2.app/Contents/MacOS/Sublime\ Text\ 2'
+alias vmrun='/Applications/VMware\ Fusion.app/Contents/Library/vmrun'
+
+alias ocaml='rlwrap ocaml'
+alias coqtop='rlwrap coqtop'
+
+#################################################
+################## FUNCTIONS ####################
+#################################################
+
+function subfile() {
+	nohup /Applications/Sublime\ Text\ 2.app/Contents/MacOS/Sublime\ Text\ 2 $@ &
+}
+
+function unsetproxy()	{
+	unset HTTP_PROXY
+	unset HTTPS_PROXY
+	unset http_proxy
+	unset https_proxy
+	perl -n -i -e 'if($_ =~ /^\s*proxy\s*=/) {} else {print $_;}' ~/.curlrc
+}
+
+function setproxy()	{
+	unsetproxy
+	if [ $# -lt 1 ]; then
+		n='22'
+	else
+		n=$1
+	fi
+	export PROXY_SERVER='proxy'"$n"'.iitd.ernet.in'
+	export PROXY_PORT='3128'
+	export HTTP_PROXY="http://$PROXY_SERVER:$PROXY_PORT"
+	export HTTPS_PROXY="$HTTP_PROXY"
+	export http_proxy="$HTTP_PROXY"
+	export https_proxy="$HTTPS_PROXY"
+	export NO_PROXY='localhost,*.iitd.ac.in,*.iitd.ernet.in,*.*.iitd.ernet.in,*.*.iitd.ac.in'
+	export no_proxy="$NO_PROXY"
+	echo 'proxy = "'"$HTTP_PROXY\"" >> ~/.curlrc
+}
+
+function mylogcat() {
+  adb logcat -C | grep $(adb shell ps | grep $1 | cut -c10-15)
+}
+
