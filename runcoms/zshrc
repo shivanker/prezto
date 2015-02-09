@@ -41,7 +41,7 @@ export LD_LIBRARY_PATH=/Users/shivanker/ns-allinone-2.35/otcl-1.14:/Users/shivan
 export TCL_LIBRARY=/Users/shivanker/ns-allinone-2.35/tcl8.5.10/library:/Users/shivanker/ns-allinone-2.35/tk8.5.10/library
 
 #export PHP_AUTOCONF="/usr/local/bin/autoconf"
-export HOMEBREW_GITHUB_API_TOKEN='cb3e1742041acd57d699e1dd424a03e1f3321483'
+export HOMEBREW_GITHUB_API_TOKEN="$(cat ~/.homebrew_token)"
 
 # OPAM configuration
 # (enabled ocaml module in prezto)
