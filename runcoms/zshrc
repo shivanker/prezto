@@ -21,6 +21,13 @@ function update-prezto()  {
 
 # enable bash-like comments in zsh
 setopt interactivecomments
+# disable sharing of history across terminals
+unsetopt share_history
+
+## Add ssh id to OSX's auth-agent
+if [ -f ~/.ssh/id_rsa ]; then
+    ssh-add -K ~/.ssh/id_rsa 2>/dev/null
+fi
 
 ###############################################
 ################ EXPORTS ######################
