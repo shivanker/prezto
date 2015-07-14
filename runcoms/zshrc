@@ -50,6 +50,11 @@ export DYLD_LIBRARY_PATH=${DYLD_LIBRARY_PATH}:`ocamlfind printconf destdir`/Z3
 #################################################
 ################### ALIASES #####################
 #################################################
+
+#default gcc
+alias gcc='gcc-4.9'
+alias g++='g++-4.9'
+
 alias md5sum='md5 -r'
 
 alias matlab='/Applications/MATLAB_R2012b.app/bin/matlab'
@@ -58,6 +63,8 @@ alias vmrun='/Applications/VMware\ Fusion.app/Contents/Library/vmrun'
 
 alias ocaml='rlwrap ocaml'
 alias coqtop='rlwrap coqtop'
+
+alias cls='clear && '
 
 #################################################
 ################## FUNCTIONS ####################
@@ -97,6 +104,24 @@ function mylogcat() {
   adb logcat -C | grep $(adb shell ps | grep $1 | cut -c10-15)
 }
 
+function findkali() {
+  arp -an | grep -q '00\?:0\?c:29:2b:a8:d9'
+  if [ $? -ne 0 ]; then
+    nmap -sn $(ipconfig getifaddr en0)/24 > /dev/null 2>&1
+  fi
+  kaliIP=`arp -an | grep '00\?:0\?c:29:2b:a8:d9' | awk '{print $2}' | sed -e 's/(//' -e 's/)//'`
+  sed -i'.bak' '/^Host starkali$/{n; s/.*/  Hostname '"$kaliIP"'/;}' .ssh/config
+}
+
+function checkmd5() {
+  for file in $(ls | grep '.md5$'); do
+    file=${file%.*}
+    grep -q "`md5 -q $file`\\s\+$file" ${file}.md5
+    if [ $? -ne 0 ]; then
+      echo "MD5 mismatch for file: $file"
+    fi
+  done
+}
 
 ## ## Fish-like Auto-suggestions
 ## 
