@@ -45,7 +45,7 @@ export HOMEBREW_GITHUB_API_TOKEN="$(cat ~/.homebrew_token)"
 
 # OPAM configuration
 # (enabled ocaml module in prezto)
-export DYLD_LIBRARY_PATH=${DYLD_LIBRARY_PATH}:`ocamlfind printconf destdir`/Z3
+# export DYLD_LIBRARY_PATH=${DYLD_LIBRARY_PATH}:`ocamlfind printconf destdir`/Z3
 
 #################################################
 ################### ALIASES #####################
